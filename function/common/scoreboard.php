@@ -15,7 +15,6 @@ require_once 'common_object.php';
 class ScoreBoard extends CommonObject
 {
     private $sb_id;
-    private $sb_data;
     private $sb_users;
     private $sb_problems;
     private $sb_sb;
@@ -74,15 +73,19 @@ class ScoreBoard extends CommonObject
     {
         try{
             $tscoreboard = \DB::tname('scoreboard');
-
             $data = \DB::fetchEx("SELECT * FROM `{$tscoreboard}` WHERE `sb_id` = ?",$sb_id);
             if( $data===false )
             {
+                $this->sb_id = -1;
                 throw new \Exception('Load Problem Failed!');
             }
+            else
+            {
+                $this->sb_id = $sb_id;
+                $this->sqldata = $data;
+            }
 
-            $this->sb_id = $sb_id;
-            $this->sb_data = $data;
+            
         }catch(\Exception $e){
             $this->sb_id = null;
         }
@@ -95,7 +98,7 @@ class ScoreBoard extends CommonObject
 
     function GetTitle():string
     {
-        return $this->sb_data['title']??'(null)';
+        return $this->sqldata['title']??'(null)';
     }
 
     function SetTitle(string $title):bool
@@ -110,7 +113,7 @@ class ScoreBoard extends CommonObject
     
     function GetStart():string
     {
-        return $this->sb_data['start']??'';
+        return $this->sqldata['start']??'';
     }
 
     function SetStart(string $start):bool
@@ -125,7 +128,7 @@ class ScoreBoard extends CommonObject
 
     function GetEnd():string
     {
-        return $this->sb_data['end']??'';
+        return $this->sqldata['end']??'';
     }
 
     function SetEnd(string $end):bool
@@ -140,7 +143,7 @@ class ScoreBoard extends CommonObject
 
     function GetAnnounce():string
     {
-        return $this->sb_data['announce']??'';
+        return $this->sqldata['announce']??'';
     }
 
     function SetAnnounce(string $announce):bool
@@ -153,14 +156,20 @@ class ScoreBoard extends CommonObject
         return true;
     }
 
+    public function set_json(string $json):bool
+    {
+        $this->UpdateSQLLazy('json',$json);
+        return true;
+    }
+
     function GetState():int
     {
-        return $this->sb_data['state']??0;
+        return $this->sqldata['state']??0;
     }
 
     function owner():int
     {
-        return $this->sb_data['owner'];
+        return $this->sqldata['owner'];
     }
 
     private function load_users():bool

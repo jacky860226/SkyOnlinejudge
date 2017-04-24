@@ -17,6 +17,7 @@ function rank_api_modifyHandle()
         $problems = \SKYOJ\safe_post('problems');
         
         $announce = \SKYOJ\safe_post('announce');
+        $json = \SKYOJ\safe_post('json_data');
 
         if( !\SKYOJ\check_tocint($sb_id) )
             throw new \Exception('ID Error');
@@ -41,7 +42,7 @@ function rank_api_modifyHandle()
             throw new \Exception('time range error');
         if( !$sb->SetAnnounce($announce) )
             throw new \Exception('modify announce error');
-
+        $sb->json = $json;
         if( !$sb->UpdateSQL() )
             throw new \Exception('SQL Error!');
         \SKYOJ\throwjson('SUCC','yee');

@@ -10,6 +10,7 @@ use \SKYOJ\HTML_INPUT_DIV;
 use \SKYOJ\HTML_INPUT_SELECT;
 use \SKYOJ\HTML_INPUT_BUTTOM;
 use \SKYOJ\HTML_INPUT_HIDDEN;
+use \SKYOJ\HTML_INPUT_CODEPAD;
 ?>
 
 <script src="<?=$_E['SITEROOT']?>js/third/tinymce/tinymce.min.js"></script>
@@ -61,6 +62,7 @@ $(document).ready(function()
     {
         e.preventDefault();
         $("#announce").val(tinymce.get('announcement').getContent());
+        $("#json_data").val(ace.edit("_json_data").getValue());
         api_submit("<?=$SkyOJ->uri('rank','api','modify',$tmpl['sb']->sb_id())?>",'#board','#btn-show',function(res){
             setTimeout(function(){location.reload();}, 500);
         });
@@ -87,6 +89,7 @@ $(document).ready(function()
                 Render::renderForm(new FormInfo([
                     'data'=>[
                         new HTML_INPUT_HIDDEN(['id'=>'announce','name'=>'announce','value'=>'']),
+                        new HTML_INPUT_HIDDEN(['name'=>'json_data','id'=>'json_data','value'=>'']),
                         new HTML_INPUT_TEXT(['name'=>'title','value'=>$tmpl['sb']->GetTitle(),'option' => ['help_text' => '記分板名稱']]),
                         new HTML_INPUT_TEXT(['name'=>'start','value'=>$tmpl['sb']->GetStart(),'option' => ['help_text' => '開始時間']]),
                         new HTML_INPUT_TEXT(['name'=>'end','value'=>$tmpl['sb']->GetEnd(),'option' => ['help_text' => '結束時間']]),
@@ -97,6 +100,14 @@ $(document).ready(function()
                             'html'=>"<textarea id='announcement'>".\SKYOJ\html($tmpl['sb']->GetAnnounce())."</textarea>",
                             'row'=>true]
                         ]),
+                        new HTML_INPUT_CODEPAD(['option' =>
+                            [
+                                'code'=>$tmpl['sb']->json,
+                                'language'=>'json',
+                                'id'=> '_json_data',
+                                'setting'=>['minLines'=>20,'maxLines'=>20],
+                                'help_text' => 'JSON'
+                            ]]),
                         new HTML_INPUT_BUTTOM(['name'=>'btn','title'=>'送出','option' => ['help_text' => 'true']]),
                     ]
                 ]),'board');
