@@ -361,6 +361,17 @@ class ScoreBoard extends CommonObject
         }
     }
 
+    private function calc_score($pname,$score)
+    {
+        $info = json_decode($this->json);
+        if( $info===false || $info->score!="nthu" )return $score;
+        foreach($info->problems as $block)
+        {
+            if( in_array($pname,$block->pids) )
+                return $score/100*$block->score;
+        }
+        return $score;
+    }
     private function QuerySKYOJ($probs)
     {
         $qstr = rtrim(str_repeat('?,',count($probs)),',');
@@ -416,7 +427,7 @@ TAG;
         {
             foreach($res as $row)
             {
-                $this->sb_sb[$row['uid']][$row['pid']] = [$row['mr'],$row['score']];
+                $this->sb_sb[$row['uid']][$row['pid']] = [$row['mr'],$this->calc_score($row['pid'],$row['score'])];
             }
         }
     }
