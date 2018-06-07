@@ -1,0 +1,24 @@
+<app-image-bar></app-image-bar>
+<div class="container custom-container-width">
+    <div class="border-bottom mt-3 mb-3">
+        <h1 class="inline">Problems</h1>
+    </div>
+
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col"></th>
+                <th scope="col">NAME</th>
+                <th scope="col">Submit AC rate</th>
+            </tr>
+        </thead>
+        <tbody class="ProblemList">
+            <tr *ngFor="let Problem of List">
+                <td>{{Problem.id}}</td>
+                <td><a href="/problem/view/{{Problem.id}}">{{Problem.name}}</a></td>
+                <td>{{Problem.acrate}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <app-pagination [(page)]="page" [Items]="Details.numberOfPages" (pageChange)="loadPage($event)"></app-pagination>
+</div>

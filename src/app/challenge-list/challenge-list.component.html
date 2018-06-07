@@ -1,0 +1,40 @@
+<app-image-bar></app-image-bar>
+<div class="container custom-container-width">
+    <div class="border-bottom mt-3 mb-3">
+        <h1 class="inline">Challenge</h1>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <app-challenge-list-form (SubmitClick)="SubmitClick($event)" [uidNum]="uid" [pidNum]="pid" [resultNum]="result"></app-challenge-list-form>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>使用者</th>
+                        <th>題目</th>
+                        <th>結果</th>
+                        <th class="d-none d-sm-block">使用時間</th>
+                        <th>分數</th>
+                        <th>上傳時間</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><a href="/chal/view/7122">7122</a></td>
+                        <td><a href="#">日月卦長</a></td>
+                        <td><a href="/problem/view/7123" title="金坷垃">
+                            <span class="d-none d-sm-block">金坷垃</span>
+                            <span class="d-sm-none">7123</span>
+                        </a></td>
+                        <td>Accept</td>
+                        <td class="d-none d-sm-block">2217</td>
+                        <td>100</td>
+                        <td>2018-05-15 13:59:49</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <app-pagination [(page)]="page" [Items]="12" (pageChange)="loadPage($event)"></app-pagination>
+</div>
