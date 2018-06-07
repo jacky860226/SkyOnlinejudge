@@ -4,3 +4,6 @@
 [submodule "css/third"]
 	path = css/third
 	url = https://github.com/TFcis/SkyOnlinejudge-third-party-css.git
+[submodule "web"]
+	path = web
+	url = https://github.com/jacky860226/SkyOnlinejudge-web.git
